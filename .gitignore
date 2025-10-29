@@ -10,6 +10,3 @@ reference-codebases/
 **/dist/
 **/target/
 **/.anchor/
-
-# IDL copies (should be generated)
-frontend/anchor-idl/
