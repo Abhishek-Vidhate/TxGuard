@@ -1,0 +1,416 @@
+{
+  "address": "FxYDzyGPggfBeQsoLCJqmhAq9danG1qQJXaUjrWTwhp1",
+  "metadata": {
+    "name": "txguard",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "initialize",
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "registry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "failure_catalog",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  97,
+                  116,
+                  97,
+                  108,
+                  111,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "priority_fee_stats",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  105,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "record_failure",
+      "discriminator": [
+        86,
+        94,
+        231,
+        2,
+        95,
+        43,
+        53,
+        161
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "failure_catalog",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  97,
+                  116,
+                  97,
+                  108,
+                  111,
+                  103
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "failure_type",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "register_tx_outcome",
+      "discriminator": [
+        230,
+        86,
+        70,
+        24,
+        111,
+        33,
+        136,
+        196
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "registry",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  114,
+                  101,
+                  103,
+                  105,
+                  115,
+                  116,
+                  114,
+                  121
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "failure_catalog",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  97,
+                  116,
+                  97,
+                  108,
+                  111,
+                  103
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "priority_fee_stats",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  105,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "success",
+          "type": "bool"
+        },
+        {
+          "name": "failure_type",
+          "type": "u8"
+        },
+        {
+          "name": "priority_fee_tier",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "update_priority_fee",
+      "discriminator": [
+        29,
+        149,
+        238,
+        80,
+        148,
+        208,
+        73,
+        66
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "priority_fee_stats",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  114,
+                  105,
+                  111,
+                  114,
+                  105,
+                  116,
+                  121
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "args": [
+        {
+          "name": "tier",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "FailureCatalog",
+      "discriminator": [
+        103,
+        75,
+        222,
+        15,
+        18,
+        86,
+        199,
+        97
+      ]
+    },
+    {
+      "name": "PriorityFeeStats",
+      "discriminator": [
+        52,
+        190,
+        74,
+        129,
+        208,
+        215,
+        192,
+        199
+      ]
+    },
+    {
+      "name": "TransactionRegistry",
+      "discriminator": [
+        190,
+        146,
+        237,
+        4,
+        19,
+        150,
+        13,
+        217
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidPriorityFeeTier",
+      "msg": "Invalid priority fee tier"
+    },
+    {
+      "code": 6001,
+      "name": "CountOverflow",
+      "msg": "Count overflow"
+    }
+  ],
+  "types": [
+    {
+      "name": "FailureCatalog",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "slippage_exceeded",
+            "type": "u32"
+          },
+          {
+            "name": "insufficient_liquidity",
+            "type": "u32"
+          },
+          {
+            "name": "mev_detected",
+            "type": "u32"
+          },
+          {
+            "name": "dropped_tx",
+            "type": "u32"
+          },
+          {
+            "name": "insufficient_funds",
+            "type": "u32"
+          },
+          {
+            "name": "other",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PriorityFeeStats",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tiers",
+            "type": {
+              "vec": "u64"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TransactionRegistry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tx_count",
+            "type": "u64"
+          },
+          {
+            "name": "success_count",
+            "type": "u64"
+          },
+          {
+            "name": "failure_count",
+            "type": "u64"
+          },
+          {
+            "name": "last_100_outcomes",
+            "type": "bytes"
+          },
+          {
+            "name": "cursor",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ]
+}
