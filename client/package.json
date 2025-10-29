@@ -1,0 +1,32 @@
+{
+  "name": "txguard-client",
+  "version": "0.1.0",
+  "description": "TypeScript client for TxGuard Solana program",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "bunx ts-mocha -p ./tsconfig.json -t 1000000 \"tests/**/*.ts\"",
+    "dev": "tsc --watch",
+    "lint": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "lint:fix": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\""
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.32.1",
+    "@solana/web3.js": "^1.98.4",
+    "@solana/spl-token": "^0.4.14"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.2.0",
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
+    "chai": "^6.2.0",
+    "mocha": "^11.7.4",
+    "ts-mocha": "^11.1.0",
+    "typescript": "^5.9.3",
+    "prettier": "^3.6.2"
+  },
+  "keywords": ["solana", "anchor", "transaction", "monitoring"],
+  "author": "TxGuard Team",
+  "license": "MIT"
+}

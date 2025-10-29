@@ -2,3 +2,14 @@
 reference-material/
 my-pitch-idea.md
 reference-codebases/
+
+# Node modules
+**/node_modules/
+
+# Build artifacts
+**/dist/
+**/target/
+**/.anchor/
+
+# IDL copies (should be generated)
+frontend/anchor-idl/
