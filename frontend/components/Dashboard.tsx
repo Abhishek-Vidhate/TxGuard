@@ -7,6 +7,8 @@ import { PriorityFeeMatrix } from '@/components/PriorityFeeMatrix';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 /**
  * Main Dashboard component
@@ -48,9 +50,16 @@ export default function Dashboard() {
             Transaction Health Monitor & Delivery Optimizer
           </p>
         </div>
-        <Badge variant={stats?.transactions.successRate && stats.transactions.successRate > 70 ? 'default' : 'destructive'}>
-          {stats?.transactions.successRate ? `${stats.transactions.successRate.toFixed(1)}%` : '0%'} Success Rate
-        </Badge>
+        <div className="flex items-center gap-3">
+          <Link href="/features">
+            <Button variant="outline" size="sm">
+              Features
+            </Button>
+          </Link>
+          <Badge variant={stats?.transactions.successRate && stats.transactions.successRate > 70 ? 'default' : 'destructive'}>
+            {stats?.transactions.successRate ? `${stats.transactions.successRate.toFixed(1)}%` : '0%'} Success Rate
+          </Badge>
+        </div>
       </div>
 
       {/* Stats Cards */}
