@@ -22,11 +22,22 @@ export async function GET(request: NextRequest) {
       }
     });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    if (msg.includes('Account does not exist')) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Program PDAs not initialized. Run `anchor test` in program/ to initialize.',
+          data: { txCount: 0, successCount: 0, failureCount: 0, last100Outcomes: [], cursor: 0 }
+        },
+        { status: 503 }
+      );
+    }
     console.error('Error fetching transactions:', error);
     return NextResponse.json(
       { 
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to fetch transactions'
+        error: msg
       },
       { status: 500 }
     );

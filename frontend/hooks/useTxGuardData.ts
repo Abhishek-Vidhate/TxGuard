@@ -74,30 +74,37 @@ export function useTxGuardData(pollInterval: number = 5000): UseTxGuardDataRetur
       setLoading(true);
       setError(null);
 
-      // Fetch all endpoints in parallel
-      const [txRes, failuresRes, statsRes] = await Promise.all([
+      const [txRes, failuresRes, statsRes] = await Promise.allSettled([
         fetch('/api/transactions'),
         fetch('/api/failures'),
         fetch('/api/stats')
       ]);
 
-      if (!txRes.ok || !failuresRes.ok || !statsRes.ok) {
-        throw new Error('Failed to fetch data');
-      }
+      // Helper to safely handle each response without throwing
+      const handleResponse = async <T,>(res: PromiseSettledResult<Response>, setter: (v: T) => void) => {
+        if (res.status !== 'fulfilled') {
+          setError((prev) => prev ?? (res.reason?.message || 'Network error'));
+          return;
+        }
+        const r = res.value;
+        try {
+          const body = await r.json().catch(() => ({} as any));
+          if (r.ok && body && body.success) {
+            setter(body.data as T);
+          } else {
+            const msg = body?.error || `Request failed (${r.status})`;
+            setError((prev) => prev ?? msg);
+          }
+        } catch (e: any) {
+          setError((prev) => prev ?? (e?.message || 'Failed to parse response'));
+        }
+      };
 
-      const txData = await txRes.json();
-      const failuresData = await failuresRes.json();
-      const statsData = await statsRes.json();
-
-      if (txData.success) {
-        setTransactions(txData.data);
-      }
-      if (failuresData.success) {
-        setFailures(failuresData.data);
-      }
-      if (statsData.success) {
-        setStats(statsData.data);
-      }
+      await Promise.all([
+        handleResponse<TransactionData>(txRes as PromiseSettledResult<Response>, setTransactions),
+        handleResponse<FailureData>(failuresRes as PromiseSettledResult<Response>, setFailures),
+        handleResponse<StatsData>(statsRes as PromiseSettledResult<Response>, setStats)
+      ]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
       console.error('Error fetching TxGuard data:', err);

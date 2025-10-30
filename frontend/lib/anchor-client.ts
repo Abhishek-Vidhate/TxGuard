@@ -22,6 +22,13 @@ export async function getProgram(): Promise<Program<Txguard>> {
   // Create connection to localnet
   const connection = new Connection('http://127.0.0.1:8899', 'confirmed');
 
+  // Verify validator connectivity early to surface actionable error
+  try {
+    await connection.getVersion();
+  } catch (e) {
+    throw new Error('Failed to connect to validator at http://127.0.0.1:8899. Start it with `solana-test-validator --reset`.');
+  }
+
   // Create a simple read-only wallet (Keypair wrapper)
   const keypair = Keypair.generate();
   const wallet = {

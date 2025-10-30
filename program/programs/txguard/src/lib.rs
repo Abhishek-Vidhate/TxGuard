@@ -20,6 +20,15 @@ pub mod txguard {
             registry.last_100_outcomes.push(2);
         }
         
+            // Reset failure catalog so re-runs start from a clean slate
+            let catalog = &mut ctx.accounts.failure_catalog;
+            catalog.slippage_exceeded = 0;
+            catalog.insufficient_liquidity = 0;
+            catalog.mev_detected = 0;
+            catalog.dropped_tx = 0;
+            catalog.insufficient_funds = 0;
+            catalog.other = 0;
+
         // Initialize priority fee stats
         let stats = &mut ctx.accounts.priority_fee_stats;
         stats.tiers.clear();
@@ -172,7 +181,7 @@ pub struct Initialize<'info> {
     pub payer: Signer<'info>,
 
     #[account(
-        init,
+            init_if_needed,
         payer = payer,
         space = 8 + TransactionRegistry::INIT_SPACE,
         seeds = [b"registry"],
@@ -181,7 +190,7 @@ pub struct Initialize<'info> {
     pub registry: Account<'info, TransactionRegistry>,
     
     #[account(
-        init,
+            init_if_needed,
         payer = payer,
         space = 8 + FailureCatalog::INIT_SPACE,
         seeds = [b"catalog"],
@@ -190,7 +199,7 @@ pub struct Initialize<'info> {
     pub failure_catalog: Account<'info, FailureCatalog>,
     
     #[account(
-        init,
+            init_if_needed,
         payer = payer,
         space = 8 + PriorityFeeStats::INIT_SPACE,
         seeds = [b"priority"],

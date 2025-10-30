@@ -25,26 +25,21 @@ export default function Dashboard() {
     );
   }
 
-  if (error) {
-    return (
-      <div className="container mx-auto p-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Error</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-destructive">{error}</p>
-            <button onClick={refresh} className="mt-4">
-              Retry
-            </button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  // Don't block the entire dashboard when there's an error; show a banner and keep any cached data visible
 
   return (
     <div className="container mx-auto p-6 space-y-6">
+      {error && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-destructive">Connection issue</CardTitle>
+            <CardDescription>{error}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <button onClick={refresh} className="underline text-sm">Retry</button>
+          </CardContent>
+        </Card>
+      )}
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

@@ -39,11 +39,25 @@ export async function GET(request: NextRequest) {
       }
     });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    if (msg.includes('Account does not exist')) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Program PDAs not initialized. Run `anchor test` in program/ to initialize.',
+          data: {
+            transactions: { total: 0, success: 0, failure: 0, successRate: 0 },
+            priorityFees: { tiers: [0,0,0,0,0], tierStats: [] }
+          }
+        },
+        { status: 503 }
+      );
+    }
     console.error('Error fetching stats:', error);
     return NextResponse.json(
       { 
         success: false,
-        error: error instanceof Error ? error.message : 'Failed to fetch stats'
+        error: msg
       },
       { status: 500 }
     );

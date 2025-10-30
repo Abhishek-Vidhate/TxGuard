@@ -16,4 +16,4 @@ cluster = "localnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
-test = "tsx tests/txguard.ts"
+test = "bunx --bun ts-mocha -p ./tsconfig.json -t 1000000 \"tests/**/*.ts\""
