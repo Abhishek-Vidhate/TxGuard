@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
 interface SuccessRateChartProps {
   data: number[];
@@ -48,28 +48,23 @@ export function SuccessRateChart({ data }: SuccessRateChartProps) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={{ value: { color: 'hsl(var(--chart-1))' } }}>
-          <AreaChart data={chartDataWithAvg} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" hide />
-            <YAxis domain={[0, 100]} />
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <Area 
-              type="monotone" 
-              dataKey="value" 
-              stroke="hsl(var(--chart-1))" 
-              fill="hsl(var(--chart-1))" 
-              fillOpacity={0.6}
-              name="Success Rate"
-            />
-            <Area 
-              type="monotone" 
-              dataKey="average" 
-              stroke="hsl(var(--chart-2))" 
-              fillOpacity={0}
-              name="Running Average"
-            />
-          </AreaChart>
+        <ChartContainer config={{ value: { color: 'var(--chart-1)' }, average: { color: 'var(--chart-2)' } }}>
+          <ResponsiveContainer width="100%" height={280}>
+            <AreaChart data={chartDataWithAvg} margin={{ top: 5, right: 12, left: 0, bottom: 0 }}>
+              <defs>
+                <linearGradient id="srGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="var(--color-value)" stopOpacity={0.85} />
+                  <stop offset="100%" stopColor="var(--color-value)" stopOpacity={0.25} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid vertical={false} stroke="hsl(var(--muted-foreground) / 0.17)" />
+              <XAxis dataKey="name" hide stroke="hsl(var(--muted-foreground))" />
+              <YAxis domain={[0, 100]} tickLine={false} axisLine={false} stroke="hsl(var(--muted-foreground))" />
+              <Tooltip contentStyle={{ background: "hsl(var(--popover))", color: "hsl(var(--foreground))", border: 0 }} content={<ChartTooltipContent />} cursor={{ stroke: 'hsl(var(--muted-foreground) / 0.2)' }} />
+              <Area type="monotone" dataKey="value" stroke="var(--color-value)" fill="url(#srGradient)" fillOpacity={1} name="Success Rate" />
+              <Area type="monotone" dataKey="average" stroke="var(--color-average)" strokeWidth={2} fillOpacity={0} name="Running Average" />
+            </AreaChart>
+          </ResponsiveContainer>
         </ChartContainer>
       </CardContent>
     </Card>

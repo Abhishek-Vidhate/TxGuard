@@ -15,14 +15,7 @@ interface FailureBreakdownProps {
   };
 }
 
-const COLORS = [
-  'hsl(var(--chart-1))',
-  'hsl(var(--chart-2))',
-  'hsl(var(--chart-3))',
-  'hsl(var(--chart-4))',
-  'hsl(var(--chart-5))',
-  'hsl(var(--destructive))'
-];
+const LABEL_COLORS = [1, 2, 3, 4, 5];
 
 /**
  * Failure Breakdown Chart component
@@ -59,16 +52,15 @@ export function FailureBreakdown({ catalog }: FailureBreakdownProps) {
                   cy="50%"
                   labelLine={false}
                   label={(entry) => `${entry.name}: ${entry.value} (${((entry.value / totalFailures) * 100).toFixed(1)}%)`}
-                  outerRadius={80}
-                  fill="#8884d8"
+                  outerRadius={90}
                   dataKey="value"
                 >
                   {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell key={`cell-${index}`} fill={`var(--chart-${LABEL_COLORS[index % LABEL_COLORS.length]})`} />
                   ))}
                 </Pie>
-                <Tooltip />
-                <Legend />
+                <Tooltip contentStyle={{ background: "hsl(var(--popover))", color: "hsl(var(--foreground))", border: 0 }} />
+                <Legend wrapperStyle={{ color: "hsl(var(--foreground))" }} iconType="circle" />
               </PieChart>
             </ResponsiveContainer>
           </ChartContainer>

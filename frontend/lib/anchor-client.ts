@@ -19,8 +19,8 @@ export async function getProgram(): Promise<Program<Txguard>> {
     return program;
   }
 
-  // Create connection to localnet
-  const connection = new Connection('http://127.0.0.1:8899', 'confirmed');
+  // Create connection to devnet
+  const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
 
   // Verify validator connectivity early to surface actionable error
   try {
