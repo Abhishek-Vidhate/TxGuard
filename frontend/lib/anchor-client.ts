@@ -20,7 +20,7 @@ export async function getProgram(): Promise<Program<Txguard>> {
   }
 
   // Create connection to devnet
-  const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
+ const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
 
   // Verify validator connectivity early to surface actionable error
   try {
