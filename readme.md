@@ -2,6 +2,10 @@
 
 **TxGuard** is a devtool for Solana teams and bots: a drop-in dashboard and Anchor program for tracking, labeling, and visualizing transaction outcomes (including failures: slippage, liquidity, MEV, dropped, insufficient funds, etc.).
 
+## Why build TxGuard
+Solana's DeFi transaction failure rate was as high as 75% during peak congestion in early 2024, mostly due to bot-driven arbitrage attempts and network overload, but has since improved to a 62-75% success rate by late 2025 as network upgrades and better tooling were introduced. Most failures now stem from bots deliberately submitting transactions that are expected to fail (slippage/arbitrage protection) rather than regular user actions, and developers have good visibility into transaction status thanks to enhanced analytics and monitoring tools.
+
+TxGuard tries to help developers visualise these failures metrics, so they can develop better solana program
 ---
 
 ## Why use TxGuard?
@@ -13,17 +17,58 @@
 
 ## Quickstart
 
+### Prerequisites
+
+Set Solana CLI config to devnet:
 ```sh
-git clone https://github.com/YOUR_ORG_OR_THIS_REPO/TxGuard.git
-cd TxGuard
-# Deploy the Anchor program (on devnet)
-cd program
-anchor build && anchor deploy --provider.cluster devnet
-# Start the dashboard
-cd ../frontend
-bun install # or npm install
-bun run dev # or npm run dev
+solana config set --url devnet
 ```
+
+### Setup Instructions
+
+#### Terminal 1: Build and Deploy Program
+
+```sh
+cd program
+anchor build
+anchor keys sync
+
+# Most important
+# Copy IDL files to frontend
+cd ..  # Back to TxGuard root directory
+cp program/target/idl/txguard.json frontend/anchor-idl/idl.json
+cp program/target/types/txguard.ts frontend/anchor-idl/idl.ts
+
+cd program
+anchor test
+```
+
+#### Terminal 2: Start Frontend Dashboard
+
+```sh
+cd frontend
+bun install
+bun --bun run dev
+```
+
+#### Terminal 3: Run Tests (Optional)
+
+```sh
+cd program
+anchor test --skip-deploy
+```
+
+### Testing on UI
+
+Once the frontend is running, open your browser to the dashboard URL (typically `http://localhost:3000`) and test the UI.
+
+## Using TxGuard in Your Project
+
+TxGuard can be embedded into your existing Solana workflow with minimal changes: deploy the included Anchor program to devnet (or your cluster of choice), copy the generated IDL and types into your app, and from your TypeScript dapp, bots, or test suites, call the `registerTxOutcome` instruction whenever you execute or simulate transactions to label outcomes (success/failure, reason, and priority tier). The dashboard (this frontend) reads the same on-chain PDAs to visualize metrics, so teams can keep their core logic untouched while gaining unified observability across local tests, CI, and production bots—simply wire TxGuard calls alongside your normal `@coral-xyz/anchor` or `@solana/web3.js` flows using your existing wallet adapter and RPC.
+
+
+
+---
 
 ## Recording Outcomes
 - Use the dashboard UI to record test and prod tx outcomes (choose success/fail, category, tier).
@@ -44,5 +89,3 @@ await program.methods
 ## Who should use this?
 - Solana bots, MM teams, DEXs, protocol devs, researchers, QA, incidents/on-call.
 - Anyone who needs to move past anecdotal tx failures and toward reliable, explainable behavior.
-
-Full instructions, API notes, and tips: [DEVELOPER_USE_CASE.md](./DEVELOPER_USE_CASE.md)
