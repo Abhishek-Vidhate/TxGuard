@@ -2,7 +2,7 @@
 
 **TxGuard** is a devtool for Solana teams and bots: a drop-in dashboard and Anchor program for tracking, labeling, and visualizing transaction outcomes (including failures: slippage, liquidity, MEV, dropped, insufficient funds, etc.).
 
-### Demo Video : [Google Drive](https://drive.google.com/file/d/1iB7EvnYbUkvurILK-6YhzqaVASvLZrp_/view?usp=sharing)
+### Demo Video : [Google Drive](https://drive.google.com/file/d/1ZYfNyM-9DasDf0qGY4BYpC9ruEO8m-9E/view?usp=drive_link)
 
 ## Why build TxGuard
 Solana's DeFi transaction failure rate was as high as 75% during peak congestion in early 2024, mostly due to bot-driven arbitrage attempts and network overload, but has since improved to a 62-75% success rate by late 2025 as network upgrades and better tooling were introduced. Most failures now stem from bots deliberately submitting transactions that are expected to fail (slippage/arbitrage protection) rather than regular user actions, and developers have good visibility into transaction status thanks to enhanced analytics and monitoring tools.
@@ -85,11 +85,6 @@ await program.methods
   .accounts({ payer, registry, failureCatalog, priorityFeeStats })
   .rpc();
 ```
-- CI/CD: Add "label outcome" steps to your pipline—failures, slippage, or MEV.
-
-## Exporting/Analyzing Data
-- Use dashboard view for real-time.
-- Download/export via API endpoints (see DEVELOPER_USE_CASE.md for advanced usage).
 
 ## Who should use this?
 - Solana bots, MM teams, DEXs, protocol devs, researchers, QA, incidents/on-call.
