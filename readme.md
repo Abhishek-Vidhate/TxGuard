@@ -42,6 +42,7 @@ cp program/target/types/txguard.ts frontend/anchor-idl/idl.ts
 cd program
 anchor test
 ```
+<img width="1710" height="1107" alt="Screenshot 2025-10-31 at 9 15 02 AM" src="https://github.com/user-attachments/assets/4be6c3c1-1e72-4f2d-b630-e5fd1ffb712b" />
 
 #### Terminal 2: Start Frontend Dashboard
 
@@ -50,6 +51,8 @@ cd frontend
 bun install
 bun --bun run dev
 ```
+
+<img width="1710" height="979" alt="Screenshot 2025-10-31 at 9 17 41 AM" src="https://github.com/user-attachments/assets/4a4056a4-1a62-4269-8f13-41ca2d13f631" />
 
 #### Terminal 3: Run Tests (Optional)
 
